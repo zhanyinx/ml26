@@ -1,6 +1,13 @@
-# ml26 — Classical Machine Learning for PhD Students
+# ml26 — Practical Machine Learning for Transcriptomics in Cancer Research
 
-A course combining theory and hands-on practical sessions covering classical machine learning methods.
+**From Biological Question to Research-Grade Predictive Model.**
+
+A course for PhD students in computational biology, bioinformatics and translational oncology.
+It is organised as **5 sections** built around a single running case study — predicting risk of
+recurrence in HR+/HER2− early breast cancer from tumour microarray transcriptomics (METABRIC,
+with an external GEO cohort for genuine batch effects).
+
+The full syllabus is in [`lessons/overview.md`](lessons/overview.md).
 
 ---
 
@@ -9,35 +16,41 @@ A course combining theory and hands-on practical sessions covering classical mac
 ```
 ml26/
 ├── README.md
+├── STRUCTURE.md
 ├── .gitignore
-└── lessons/
-    ├── lesson01_intro_to_ml/
-    │   ├── theory/
-    │   │   ├── slides/          # Slide decks (PDF / PPTX)
-    │   │   └── notes/           # Written notes and summaries (Markdown)
-    │   └── practical/
-    │       ├── task/            # ✅ Committed — student-facing exercises
-    │       │   ├── README.md
-    │       │   ├── datasets/
-    │       │   └── notebooks/
-    │       └── solution/        # ❌ Gitignored — instructor-only solutions
-    │           ├── notebooks/
-    │           └── README.md
-    ├── lesson02_linear_regression/
-    │   ├── theory/
-    │   │   ├── slides/
-    │   │   └── notes/
-    │   └── practical/
-    │       ├── task/
-    │       │   ├── README.md
-    │       │   ├── datasets/
-    │       │   └── notebooks/
-    │       └── solution/        # ❌ Gitignored — instructor-only solutions
-    │           ├── notebooks/
-    │           └── README.md
-    └── lessonNN_<topic>/        # Add new lessons following the same pattern
-        └── ...
+├── lessons/
+│   ├── overview.md                       # Full course syllabus (5 sections)
+│   ├── lesson01_biological_question/      # Section 1 — framing the ML problem
+│   │   ├── theory/
+│   │   │   ├── slides/                    # Slide decks (.pptx)
+│   │   │   └── notes/                     # Student notes (Lecture N - Student Pack.md)
+│   │   └── practical/
+│   │       └── task/                      # Student-facing exercises
+│   │           ├── README.md
+│   │           ├── datasets/
+│   │           └── notebooks/
+│   ├── lesson02_baseline_model/           # Section 2 — first predictive model
+│   ├── lesson03_feature_engineering/      # Section 3 — biological representation
+│   ├── lesson04_model_validation/         # Section 4 — improving & validating
+│   └── lesson05_research_grade_ml/        # Section 5 — research-grade ML
+└── solutions/                            # Reference solutions (mirrors lessons/)
+    ├── README.md
+    └── lessonNN_<topic>/
+        ├── notebooks/                     # lessonNN_solutions.ipynb
+        └── reports/                       # example deliverable
 ```
+
+---
+
+## Lesson ⇄ Section Mapping
+
+| Lesson | Section | Topic | Deliverable |
+|---|---|---|---|
+| `lesson01_biological_question` | 1 | From Biological Question to ML Problem | Project specification |
+| `lesson02_baseline_model` | 2 | Building the First Predictive Model | Baseline model report |
+| `lesson03_feature_engineering` | 3 | Feature Engineering & Biological Representation | Feature engineering notebook |
+| `lesson04_model_validation` | 4 | Improving and Validating Models | Model comparison report |
+| `lesson05_research_grade_ml` | 5 | Research-Grade Machine Learning | Research-style report + pipeline |
 
 ---
 
@@ -45,100 +58,45 @@ ml26/
 
 | Item | Convention | Example |
 |---|---|---|
-| Lesson folder | `lessonNN_<snake_case_topic>` | `lesson03_decision_trees` |
+| Lesson folder | `lessonNN_<snake_case_topic>` | `lesson03_feature_engineering` |
 | Exercise notebook | `lessonNN_exercises.ipynb` | `lesson01_exercises.ipynb` |
 | Solution notebook | `lessonNN_solutions.ipynb` | `lesson01_solutions.ipynb` |
-| Slide deck | `lessonNN_<topic>_slides.pdf` | `lesson01_intro_to_ml_slides.pdf` |
-| Notes file | `lessonNN_notes.md` | `lesson01_notes.md` |
-| Dataset | `<descriptive_name>.<ext>` | `iris.csv`, `boston_housing.csv` |
+| Student notes | `Lecture N - Student Pack.md` | `Lecture2 - Student Pack.md` |
+| Slide deck | `Lecture N - <title>.pptx` | `Lecture2 - Building the First Predictive Model.pptx` |
 
-- `NN` is a zero-padded two-digit number (01, 02, …, 10, 11, …).
-- Use **lowercase snake_case** for all folder and file names.
-
----
-
-## Access Control
-
-| Folder | Students | Instructor |
-|---|---|---|
-| `theory/` | ✅ Full access | ✅ Full access |
-| `practical/task/` | ✅ Full access | ✅ Full access |
-| `practical/solution/` | ❌ Never pushed to GitHub | ✅ Local only |
-
-The `.gitignore` file contains the pattern `**/solution/` which prevents any
-`solution/` directory at any depth from ever being committed or pushed.
-
----
-
-## Instructor Guide — Managing Solutions
-
-1. **Create the solution folder locally** (it will never be pushed):
-   ```bash
-   mkdir -p lessons/lessonNN_<topic>/practical/solution/notebooks
-   ```
-
-2. **Verify it is ignored** before committing:
-   ```bash
-   git status   # solution/ should not appear
-   git check-ignore -v lessons/lessonNN_<topic>/practical/solution/
-   ```
-
-3. **Back up solutions** using a separate private repository or encrypted
-   storage — do not rely solely on the local copy.
-
-4. **Never force-add** a solution folder:
-   ```bash
-   # Do NOT run:
-   git add -f lessons/.../solution/
-   ```
+- `NN` is a zero-padded two-digit number (01, 02, …) for folder/notebook names.
+- Use **lowercase snake_case** for folder and notebook names; lecture-facing
+  decks and student packs keep their human-readable `Lecture N - …` titles.
 
 ---
 
 ## Adding a New Lesson
 
-1. Create the folder skeleton:
-   ```bash
-   LESSON=lesson03_decision_trees
-   mkdir -p lessons/${LESSON}/theory/{slides,notes}
-   mkdir -p lessons/${LESSON}/practical/task/{notebooks,datasets}
-   mkdir -p lessons/${LESSON}/practical/solution/notebooks   # local only
-   ```
+```bash
+LESSON=lesson06_<topic>
+mkdir -p lessons/${LESSON}/theory/{slides,notes}
+mkdir -p lessons/${LESSON}/practical/task/{notebooks,datasets}
+mkdir -p solutions/${LESSON}/{notebooks,reports}
+```
 
-2. Add a `README.md` inside `practical/task/` describing the exercises.
+Then add a `practical/task/README.md`, the student notes (`Lecture N - Student Pack.md`)
+in `theory/notes/`, and the deck (`Lecture N - <title>.pptx`) in `theory/slides/`. Commit:
 
-3. Add theory notes in `theory/notes/` and upload slide PDFs to `theory/slides/`.
-
-4. Commit only the tracked folders:
-   ```bash
-   git add lessons/${LESSON}/theory lessons/${LESSON}/practical/task
-   git commit -m "lesson03: add decision trees theory and exercises"
-   ```
+```bash
+git add lessons/${LESSON} solutions/${LESSON}
+git commit -m "${LESSON}: add theory and exercises"
+```
 
 ---
 
 ## Environment Setup
 
 ```bash
-# Create and activate a virtual environment
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
-
-# Install dependencies
 pip install -r requirements.txt  # add this file when dependencies are defined
-
-# Launch Jupyter
 jupyter notebook
 ```
-
----
-
-## Course Outline
-
-| # | Topic | Status |
-|---|---|---|
-| 01 | Introduction to Machine Learning | ✅ Available |
-| 02 | Linear Regression | ✅ Available |
-| 03 | … | 🔜 Coming soon |
 
 ---
 

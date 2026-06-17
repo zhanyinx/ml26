@@ -218,10 +218,7 @@ __marimo__/
 .streamlit/secrets.toml
 
 # ============================================================
-# Instructor-only solution folders — NEVER commit these
-# Each lesson has a practical/solution/ directory that must
-# remain local to the instructor machine only.
+# OS / editor junk
 # ============================================================
-**/solution/
-**/solutions/
-resources
+.DS_Store
+*.Rhistory
