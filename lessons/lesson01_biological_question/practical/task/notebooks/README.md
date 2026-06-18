@@ -34,7 +34,8 @@ are combined **deliberately** so a real cross-platform batch effect exists for y
    ```
 3. **Run the setup cell.** It resolves the `datasets/` cache folder automatically and prints where
    data will be stored.
-4. **Run the loader cells.** First run downloads METABRIC (~50 MB) and GSE6532 into `datasets/`
+4. **Run the loader cells.** First run downloads METABRIC (expression matrix ~660 MB, from the
+   cBioPortal datahub) and GSE6532 (~180 MB SOFT file, from NCBI GEO) into `datasets/`
    and caches them; subsequent runs reuse the cache. **Internet access is required.**
 
 > **Note on data & git.** Downloaded data is **not committed** — `datasets/` is git-ignored (kept via

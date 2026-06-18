@@ -218,7 +218,20 @@ __marimo__/
 .streamlit/secrets.toml
 
 # ============================================================
+# Course data caches (downloaded at runtime; keep the .gitkeep placeholder)
+# ============================================================
+lessons/**/datasets/*
+!lessons/**/datasets/.gitkeep
+solutions/**/datasets/*
+!solutions/**/datasets/.gitkeep
+
+# Local review/scratch virtualenvs
+.venv*/
+
+# ============================================================
 # OS / editor junk
 # ============================================================
 .DS_Store
 *.Rhistory
+# MS Office lock/temp files (e.g. ~$Lecture1 - ....pptx)
+~$*
