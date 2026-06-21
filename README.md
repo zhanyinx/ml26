@@ -1,146 +1,108 @@
-# ml26 — Classical Machine Learning for PhD Students
+# Practical Machine Learning for Transcriptomics in Cancer Research
 
-A course combining theory and hands-on practical sessions covering classical machine learning methods.
+**From a biological question to a research-grade predictive model.**
 
----
+Welcome! This is a hands-on course for PhD students in computational biology, bioinformatics,
+and translational oncology. Over **five lessons** you will build a complete, trustworthy
+machine-learning pipeline around one real clinical problem — and learn to spot the methodological
+mistakes that sink most biomarker studies.
 
-## Repository Structure
+> The central message of the course:
+> **building a trustworthy predictive biomarker matters more than choosing a sophisticated algorithm.**
 
-```
-ml26/
-├── README.md
-├── .gitignore
-└── lessons/
-    ├── lesson01_intro_to_ml/
-    │   ├── theory/
-    │   │   ├── slides/          # Slide decks (PDF / PPTX)
-    │   │   └── notes/           # Written notes and summaries (Markdown)
-    │   └── practical/
-    │       ├── task/            # ✅ Committed — student-facing exercises
-    │       │   ├── README.md
-    │       │   ├── datasets/
-    │       │   └── notebooks/
-    │       └── solution/        # ❌ Gitignored — instructor-only solutions
-    │           ├── notebooks/
-    │           └── README.md
-    ├── lesson02_linear_regression/
-    │   ├── theory/
-    │   │   ├── slides/
-    │   │   └── notes/
-    │   └── practical/
-    │       ├── task/
-    │       │   ├── README.md
-    │       │   ├── datasets/
-    │       │   └── notebooks/
-    │       └── solution/        # ❌ Gitignored — instructor-only solutions
-    │           ├── notebooks/
-    │           └── README.md
-    └── lessonNN_<topic>/        # Add new lessons following the same pattern
-        └── ...
-```
+You do **not** need prior machine-learning experience. Comfort with Python and `pandas`
+(indexing, joins, value counts) is assumed.
 
 ---
 
-## Naming Conventions
+## The running case study
 
-| Item | Convention | Example |
-|---|---|---|
-| Lesson folder | `lessonNN_<snake_case_topic>` | `lesson03_decision_trees` |
-| Exercise notebook | `lessonNN_exercises.ipynb` | `lesson01_exercises.ipynb` |
-| Solution notebook | `lessonNN_solutions.ipynb` | `lesson01_solutions.ipynb` |
-| Slide deck | `lessonNN_<topic>_slides.pdf` | `lesson01_intro_to_ml_slides.pdf` |
-| Notes file | `lessonNN_notes.md` | `lesson01_notes.md` |
-| Dataset | `<descriptive_name>.<ext>` | `iris.csv`, `boston_housing.csv` |
+Every lesson works on the same problem:
 
-- `NN` is a zero-padded two-digit number (01, 02, …, 10, 11, …).
-- Use **lowercase snake_case** for all folder and file names.
+**Predicting risk of recurrence in HR+/HER2− early breast cancer from tumour transcriptomics.**
 
----
+You train on the **METABRIC** cohort (Pereira et al. 2016, via cBioPortal) and meet a second
+cohort, **GSE6532** (Loi et al., on a different array platform), so you encounter a genuine
+batch effect. The prediction target is a **binary recurrence** label derived from long-term
+follow-up — a deliberate simplification whose cost is examined honestly in Lesson 5.
 
-## Access Control
-
-| Folder | Students | Instructor |
-|---|---|---|
-| `theory/` | ✅ Full access | ✅ Full access |
-| `practical/task/` | ✅ Full access | ✅ Full access |
-| `practical/solution/` | ❌ Never pushed to GitHub | ✅ Local only |
-
-The `.gitignore` file contains the pattern `**/solution/` which prevents any
-`solution/` directory at any depth from ever being committed or pushed.
+The full syllabus is in [`lessons/overview.md`](lessons/overview.md).
 
 ---
 
-## Instructor Guide — Managing Solutions
+## The five lessons
 
-1. **Create the solution folder locally** (it will never be pushed):
-   ```bash
-   mkdir -p lessons/lessonNN_<topic>/practical/solution/notebooks
-   ```
+| # | Lesson | What you build | Deliverable |
+|---|---|---|---|
+| 1 | [From Biological Question to ML Problem](lessons/lesson01_biological_question/) | Problem framing, data audit, leakage-aware splits | Data-readiness memo / project spec |
+| 2 | [Building the First Predictive Model](lessons/lesson02_baseline_model/) | A validated, regularised baseline | Baseline model report |
+| 3 | [Feature Engineering & Biological Representation](lessons/lesson03_feature_engineering/) | Signatures & pathway features vs raw genes | Feature-engineering recommendation |
+| 4 | [Improving & Validating Models](lessons/lesson04_model_validation/) | Model families, nested CV, batch correction | Model comparison report |
+| 5 | [Research-Grade Machine Learning](lessons/lesson05_research_grade_ml/) | Reviewer simulation + corrected pipeline | Reviewer report + reproducible notebook |
 
-2. **Verify it is ignored** before committing:
-   ```bash
-   git status   # solution/ should not appear
-   git check-ignore -v lessons/lessonNN_<topic>/practical/solution/
-   ```
+Each lesson folder contains:
 
-3. **Back up solutions** using a separate private repository or encrypted
-   storage — do not rely solely on the local copy.
-
-4. **Never force-add** a solution folder:
-   ```bash
-   # Do NOT run:
-   git add -f lessons/.../solution/
-   ```
+- **`theory/`** — your lecture **Student Pack** (`theory/notes/Lecture N - Student Pack.md`) and the
+  slide deck (`theory/slides/*.pptx`). Read the Student Pack after the lecture and before the practical.
+- **`practical/task/`** — the practical: a `README.md` brief, the exercise notebook in
+  `notebooks/`, and a `datasets/` cache folder (populated automatically on first run).
 
 ---
 
-## Adding a New Lesson
+## Setup
 
-1. Create the folder skeleton:
-   ```bash
-   LESSON=lesson03_decision_trees
-   mkdir -p lessons/${LESSON}/theory/{slides,notes}
-   mkdir -p lessons/${LESSON}/practical/task/{notebooks,datasets}
-   mkdir -p lessons/${LESSON}/practical/solution/notebooks   # local only
-   ```
-
-2. Add a `README.md` inside `practical/task/` describing the exercises.
-
-3. Add theory notes in `theory/notes/` and upload slide PDFs to `theory/slides/`.
-
-4. Commit only the tracked folders:
-   ```bash
-   git add lessons/${LESSON}/theory lessons/${LESSON}/practical/task
-   git commit -m "lesson03: add decision trees theory and exercises"
-   ```
-
----
-
-## Environment Setup
+You need **Python 3.9+**. From the repository root:
 
 ```bash
-# Create and activate a virtual environment
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt  # add this file when dependencies are defined
-
-# Launch Jupyter
-jupyter notebook
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+jupyter lab
 ```
 
+That installs everything the practicals need (NumPy, pandas, scikit-learn, matplotlib, plus the
+data-download helpers). One optional package, `lifelines`, is used only by a single Lesson 5 cell
+and is skipped automatically if missing.
+
+### A note on the data
+
+The practicals **download their data on first run** (internet required):
+
+- **METABRIC** from the cBioPortal datahub — the expression matrix is large (**~660 MB**), so the
+  first download takes a few minutes.
+- **GSE6532** from NCBI GEO (**~180 MB**).
+
+Data is cached under each lesson's `datasets/` folder and **shared across lessons**, so it is
+downloaded only once. These caches are **git-ignored** — never commit them.
+
 ---
 
-## Course Outline
+## How to work through a practical
 
-| # | Topic | Status |
-|---|---|---|
-| 01 | Introduction to Machine Learning | ✅ Available |
-| 02 | Linear Regression | ✅ Available |
-| 03 | … | 🔜 Coming soon |
+1. Read the lesson's **Student Pack** and the `practical/task/README.md`.
+2. Open the exercise notebook (`practical/task/notebooks/lessonNN_exercises.ipynb`) and work through
+   its sections in order — each ends in a short written reflection or a figure.
+3. Produce the lesson's **deliverable** (a short report or memo; see each README).
+4. Save your completed notebook as `lessonNN_exercises_<your_name>.ipynb` and submit per your
+   instructor's directions.
+
+Assessment focuses on **correct methodology, validation strategy, biological interpretation, and
+reproducibility** — not on squeezing out the highest accuracy.
 
 ---
+
+## Reference solutions
+
+Worked solutions for every lesson live in [`solutions/`](solutions/), mirroring the lesson layout
+(`solutions/lessonNN_*/notebooks/lessonNN_solutions.ipynb`). Try the exercises yourself first — the
+learning is in the struggle, not the answer key.
+
+---
+
+## For instructors / contributors
+
+Repository layout, naming conventions, and how to add a lesson are documented in
+[`STRUCTURE.md`](STRUCTURE.md).
 
 ## License
 
