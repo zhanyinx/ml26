@@ -9,42 +9,37 @@ model selection**. You will build several feature sets from the same expression 
 compare how well each predicts recurrence — and you will see how improper feature selection
 silently invalidates a study through information leakage.
 
-## Prerequisites
+## Setup
 
-- Python 3.9+
-- `numpy`, `pandas`, `matplotlib`, `scikit-learn`
-- `gseapy` is **not required** — the pathway scoring here uses a simple in-notebook stand-in (optional only if you later want real ssGSEA/GSVA)
+Install the course environment once from the repository root (see the top-level
+[`README.md`](../../../../README.md) and [`requirements.txt`](../../../../requirements.txt)):
 
 ```bash
-pip install numpy pandas matplotlib scikit-learn
+pip install -r requirements.txt
 ```
 
-## Exercises
+This practical reuses the **shared METABRIC cache** from Lesson 1 (expression matrix ~660 MB); if
+you haven't run Lesson 1 it downloads on first run. **Internet access is required the first time.**
+`gseapy` is **not** required — the pathway scoring here uses a simple in-notebook stand-in (mean of
+standardised member genes); real `gseapy`-based ssGSEA/GSVA is optional if you want it later.
 
-Open `notebooks/lesson03_exercises.ipynb` and work through the tasks.
+## What you'll do
 
-### Task 1 — Gene-level features
-- Compare raw expression, variance-filtered genes, and differentially expressed genes.
+Open `notebooks/lesson03_exercises.ipynb` and work through its numbered sections in order. It is one
+controlled experiment: hold the model fixed and vary only the feature representation.
 
-### Task 2 — Biological signatures
-- Compute proliferation, estrogen-signaling, immune and stromal scores; use them as features.
-
-### Task 3 — Pathway-level features
-- Score Hallmark-like gene sets per sample using a simple ssGSEA/GSVA-style score (mean of
-  standardised member genes) as a stand-in, and use the pathway activities as features.
-  (Real `gseapy`-based ssGSEA/GSVA is optional and not required here.)
-
-### Task 4 — Feature selection without leakage
-- Embed selection (variance thresholding + univariate / differential-expression `SelectKBest`)
-  **inside** the CV pipeline so it refits within each fold.
-- Demonstrate the inflated AUC when selection is (wrongly) done on the full dataset first.
-- *(Conceptual only — covered in the lecture, not practised here: LASSO / Elastic-Net and
-  tree-based feature importance.)*
-
-### Task 5 — Reflection
-1. Which feature representation generalised best, and why might that be biologically sensible?
-2. By how much did leaky feature selection inflate the apparent AUC?
-3. When are pathway-level features preferable to gene-level features?
+- **Gene-level features** — compare raw expression, variance-filtered genes, and
+  differentially-expressed genes.
+- **Biological signatures** — build proliferation, ER-signalling, immune and stromal scores and use
+  the handful of scores as features.
+- **Pathway-level features** — score Hallmark-like gene sets per sample and model the pathway
+  activities; check stability versus raw genes.
+- **Feature selection without leakage** — embed selection **inside** the CV pipeline so it refits
+  within each fold, then *measure* how much a leaky select-on-all-data step inflates the AUC — even
+  on permuted labels. *(LASSO/Elastic-Net and tree-based importance are covered conceptually in the
+  lecture, not practised here.)*
+- **Reflection** — which representation generalised best and why; how much leakage inflated the AUC;
+  when pathway-level features beat gene-level ones.
 
 ## Deliverable
 

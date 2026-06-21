@@ -13,14 +13,17 @@ sophistication.
 > fixed horizon). It discards the timing of relapse and forces censored patients out of the
 > analysis. This simplification is examined honestly in Section 5.
 
-## Prerequisites
+## Setup
 
-- Python 3.9+
-- `numpy`, `pandas`, `matplotlib`, `scikit-learn`
+Install the course environment once from the repository root (see the top-level
+[`README.md`](../../../../README.md) and [`requirements.txt`](../../../../requirements.txt)):
 
 ```bash
-pip install numpy pandas matplotlib scikit-learn
+pip install -r requirements.txt
 ```
+
+This practical reuses the **shared METABRIC cache** from Lesson 1 (expression matrix ~660 MB); if
+you haven't run Lesson 1 it downloads on first run. **Internet access is required the first time.**
 
 ## Exercises
 

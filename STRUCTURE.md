@@ -21,7 +21,7 @@ ml26/
 │   │   │       └── Lecture1 - From Biological Question to ML Problem.pptx
 │   │   └── practical/task/
 │   │       ├── README.md
-│   │       ├── notebooks/{README.md, lesson01_exercises.ipynb}
+│   │       ├── notebooks/lesson01_exercises.ipynb
 │   │       └── datasets/
 │   ├── lesson02_baseline_model/           # Section 2
 │   │   ├── theory/{notes/Lecture2 - Student Pack.md, slides/*.pptx}
@@ -57,5 +57,33 @@ ml26/
 - **`lessons/lessonNN_<topic>/`** — one directory per lesson/section; zero-padded number + snake_case topic.
 - **`theory/notes/`** — student notes (`Lecture N - Student Pack.md`).
 - **`theory/slides/`** — slide decks (`Lecture N - <title>.pptx`).
-- **`practical/task/`** — student-facing exercises (`README.md`, `notebooks/lessonNN_exercises.ipynb`, `datasets/`).
+- **`practical/task/`** — student-facing exercises (`README.md`, `notebooks/lessonNN_exercises.ipynb`, `datasets/`). One README per lesson, at `practical/task/README.md`.
 - **`solutions/lessonNN_<topic>/`** — reference solutions mirroring the lessons.
+
+## Student vs instructor materials
+
+What students receive is tracked in git: the top `README.md`, `requirements.txt`, `lessons/overview.md`,
+each lesson's `Lecture N - Student Pack.md` + `.pptx` + `practical/task/` (README + exercise notebook),
+and the `solutions/` tree. Instructor-only build materials — speaker transcripts, `slides_source.md`,
+`speaker_notes.md`, `instructor_talking_points.md`, `assessment_questions.md`, etc. — are kept local via
+`.git/info/exclude` and are **not** pushed. Runtime data caches (`datasets/`) and local virtualenvs are
+git-ignored via `.gitignore`.
+
+## Adding a New Lesson
+
+```bash
+LESSON=lesson06_<topic>
+mkdir -p lessons/${LESSON}/theory/{slides,notes}
+mkdir -p lessons/${LESSON}/practical/task/{notebooks,datasets}
+mkdir -p solutions/${LESSON}/{notebooks,reports}
+touch lessons/${LESSON}/practical/task/datasets/.gitkeep solutions/${LESSON}/reports/.gitkeep
+```
+
+Then add `practical/task/README.md`, the student notes (`Lecture N - Student Pack.md`) in
+`theory/notes/`, the deck (`Lecture N - <title>.pptx`) in `theory/slides/`, the exercise notebook
+(`notebooks/lessonNN_exercises.ipynb`), and the reference solution under `solutions/`. Commit:
+
+```bash
+git add lessons/${LESSON} solutions/${LESSON}
+git commit -m "${LESSON}: add theory and exercises"
+```
