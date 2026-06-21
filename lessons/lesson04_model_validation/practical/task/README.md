@@ -8,43 +8,36 @@ You will try to improve predictive performance **while maintaining scientific ri
 alternative model families, principled hyperparameter optimisation, batch correction,
 model interpretation, and reproducibility safeguards.
 
-## Prerequisites
+## Setup
 
-- Python 3.9+
-- `numpy`, `pandas`, `matplotlib`, `scikit-learn`
-- Not required: `shap` (interpretation) and `combat`/`inmoose` (batch correction) are
-  discussed in the lecture but are **not** used in the practical — the notebook relies only on
-  scikit-learn (RF feature importances and a hand-rolled ComBat-style correction).
+Install the course environment once from the repository root (see the top-level
+[`README.md`](../../../../README.md) and [`requirements.txt`](../../../../requirements.txt)):
 
 ```bash
-pip install numpy pandas matplotlib scikit-learn
+pip install -r requirements.txt
 ```
 
-## Exercises
+This practical reuses the **shared METABRIC cache** from Lesson 1 (expression matrix ~660 MB); if
+you haven't run Lesson 1 it downloads on first run. **Internet access is required the first time.**
+`shap` and `combat`/`inmoose` are discussed in the lecture but are **not** used here — the notebook
+relies only on scikit-learn (RF feature importances and a hand-rolled ComBat-style correction).
 
-Open `notebooks/lesson04_exercises.ipynb` and work through the tasks.
+## What you'll do
 
-### Task 1 — Alternative model families
-- Compare the Lesson 02 Logistic Regression baseline against Random Forest and Gradient Boosting.
-  (Decision trees are covered in the lecture as the conceptual building block of forests, but are
-  not fitted as a separate model here.)
+Open `notebooks/lesson04_exercises.ipynb` and work through its numbered sections in order.
 
-### Task 2 — Hyperparameter optimisation with nested CV
-- Tune with Grid/Random search inside an outer CV loop for a less-optimistic, honest performance
+- **Alternative model families** — compare the Lesson 2 Logistic Regression baseline against Random
+  Forest and Gradient Boosting. (Decision trees appear in the lecture as the conceptual building
+  block of forests, but aren't fitted as a separate model here.)
+- **Hyperparameter optimisation with nested CV** — tune inside an outer CV loop for an honest
   estimate that includes the cost of tuning.
-
-### Task 3 — Batch correction
-- Apply a ComBat-style location/scale batch correction (a documented stand-in for ComBat/RUV) and
-  evaluate whether correction improves cross-cohort generalisation.
-
-### Task 4 — Interpretation
-- Use model feature importance (with bootstrap stability) to interpret the best model and connect top
-  features to biology. (SHAP is discussed in the lecture but is not used in this practical.)
-
-### Task 5 — Reflection
-1. Did the more complex models actually beat the regularised baseline? At what cost?
-2. Why does nested CV give a less optimistic estimate than tuning on a single split?
-3. What reproducibility safeguards (seeds, pipelines, tracking) did you put in place?
+- **Batch correction** — apply a ComBat-style location/scale correction (a hand-rolled stand-in for
+  ComBat/RUV) to a **simulated** cross-platform cohort, judge whether correction helps, and see where
+  doing it on pooled data leaks.
+- **Interpretation** — use feature importance (with bootstrap stability) to interpret the best model
+  and connect top features to biology. (SHAP is discussed in the lecture, not used here.)
+- **Reflection** — did the complex models beat the regularised baseline, and at what cost? Why is
+  nested CV less optimistic? What reproducibility safeguards did you put in place?
 
 ## Deliverable
 
