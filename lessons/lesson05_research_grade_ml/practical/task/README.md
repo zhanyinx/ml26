@@ -18,11 +18,19 @@ cohort — is built on a **time-dependent survival core** (a survival SVM plus a
 survival forest), with a binary classifier kept only as a tiebreaker when the two survival models
 disagree.
 
-## Prerequisites
+## Setup
 
-- Python 3.9+
-- `numpy`, `pandas`, `matplotlib`, `scikit-learn`
-- A second, independent cohort for external validation
+Install the course environment once from the repository root (see the top-level
+[`README.md`](../../../../README.md) and [`requirements.txt`](../../../../requirements.txt)):
+
+```bash
+pip install -r requirements.txt
+```
+
+This capstone reuses the **shared METABRIC cache** and, for genuine external validation, downloads
+the real **GSE6532** cohort (Loi et al., Affymetrix) from NCBI GEO (~180 MB) on first run.
+**Internet access is required the first time.** The optional survival cell uses `lifelines` if
+installed (included in `requirements.txt`); it is skipped automatically if absent.
 
 ## Exercises
 
@@ -33,11 +41,12 @@ the parts as follows.
 
 **Reviewer simulation (Parts 1–3, 6).**
 
-- **Part 1 — Review the provided analysis.** Run the authors' analysis, reproduce its headline
-  number (e.g. AUC ≈ 0.9), and restate its claim precisely.
+- **Part 1 — Review the provided analysis.** Run the authors' analysis, reproduce its
+  impressive-looking cross-validated headline number, and restate its claim precisely.
 - **Part 2 — Identify the methodological flaws.** Audit it against the reviewer checklist and *name*
-  each flaw (feature-selection leakage, no external validation, incorrect preprocessing, tuning
-  optimism, unsupported interpretation); demonstrate the leakage with a **permuted-label** check.
+  each flaw you find (the checklist covers leakage, validation, preprocessing/batch, tuning
+  optimism, and interpretation — work out which apply here); demonstrate the leakage you suspect
+  with a **permuted-label** check.
 - **Part 3 — Propose corrections.** Build a flaw → fix → predicted-effect table (most fixes should
   *lower* the headline number).
 - **Part 6 — Write a reviewer report.** A structured review with a publish / minor / major / reject
@@ -46,11 +55,13 @@ the parts as follows.
 **Reproducible, externally-validated pipeline (Part 4, compared in Part 5).**
 
 - **Part 4 — Build a corrected workflow.** Selection/scaling/correction inside CV, nested CV, an
-  honest baseline, a stability-checked interpretation, a genuine **external validation** on GSE6532,
-  and a clinical-baseline comparison. **Part 4.4** covers selection stability and the optional
-  survival framing.
-- **Part 5 — Compare original vs corrected.** Quantify how much of the headline was real signal vs
-  leakage + tuning optimism + the absence of external validation.
+  honest baseline, a stability-checked interpretation, and a genuine **external validation on the real
+  GSE6532 cohort** — of *both* the authors' raw-gene model (watch it collapse: platform-specific
+  probes don't transfer) *and* your corrected engineered-feature model (it should hold: biological
+  signatures are cross-platform robust) — plus a clinical-baseline comparison. **Part 4.4** covers
+  selection stability and the optional survival framing.
+- **Part 5 — Compare original vs corrected.** Quantify how much of the headline was leakage + tuning
+  optimism, and use the external cohort to show which representation actually transfers.
 
 **Binary-vs-survival discussion (Part 4.4, revisited in Part 7).**
 

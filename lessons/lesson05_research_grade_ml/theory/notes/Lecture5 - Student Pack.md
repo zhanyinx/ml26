@@ -113,11 +113,11 @@ You continue with the prepared **METABRIC HR+/HER2−** cohort, the binary **rec
 
 This is a **review-diagnose-repair** project, not a build-from-scratch one. You are handed a *deliberately flawed* "submitted analysis" claiming an impressive recurrence biomarker, and you do what a careful reviewer (and author) must:
 
-1. **Review the provided analysis** — run it, reproduce its headline number (e.g. "AUC 0.92"), and restate its claim precisely.
-2. **Identify the flaws** — audit it against the reviewer checklist; find and *name* each one (the planted set: feature-selection leakage, no external validation, incorrect preprocessing/batch, overfitting/tuning optimism, unsupported interpretation). Demonstrate the leakage with a **permuted-label** check.
+1. **Review the provided analysis** — run it, reproduce its impressive-looking cross-validated headline, and restate its claim precisely.
+2. **Identify the flaws** — audit it against the reviewer checklist and *name* each flaw you find. The checklist spans leakage, validation, preprocessing/batch, tuning optimism, and interpretation — work out which apply here rather than assuming. Demonstrate the leakage you suspect with a **permuted-label** check.
 3. **Propose corrections** — a table of flaw → fix → predicted effect (most should *lower* the number).
-4. **Build a corrected workflow** — selection/scaling/correction inside CV, nested CV, an honest baseline, stability-checked interpretation, a genuine external validation on GSE6532, and a clinical-baseline comparison (optional: a survival framing).
-5. **Compare original vs corrected** — quantify the inflation.
+4. **Build a corrected workflow** — selection/scaling/correction inside CV, nested CV, an honest baseline, stability-checked interpretation, and a genuine external validation on the **real GSE6532 cohort** — validate *both* the authors' raw-gene model (it collapses: platform-specific probes don't transfer) *and* your corrected engineered-feature model (it holds: biological signatures are cross-platform robust) — plus a clinical-baseline comparison (optional: a survival framing).
+5. **Compare original vs corrected** — quantify the leakage/tuning inflation, and use the external cohort to show which representation actually transfers.
 6. **Write a reviewer report** — summary, major/minor issues with evidence, reproducibility and clinical-relevance assessments, and a recommendation: publish / minor revision / major revision / reject. **This is the primary assessable artefact.**
 7. **Reflect** — which course lessons (L1–L5) mattered most.
 
