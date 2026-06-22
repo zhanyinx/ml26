@@ -133,7 +133,7 @@ In our combined METABRIC + GSE6532 data, PC1 separates the two platforms cleanly
 
 ## 14. When a biomarker collapses: Duke / Potti
 
-A set of chemosensitivity gene signatures were published in top journals and were heading into clinical trials before independent forensic reanalysis (Baggerly & Coombes) could not reproduce them; data errors surfaced, trials were suspended, papers were retracted. The lesson is **not** "those scientists were bad people." It is that **the pipeline was undocumented and the failure modes we are discussing were not controlled.** Rigorous process is what protects you. *(If you cite specific dates, check them against the published retraction record.)*
+A set of chemosensitivity gene signatures were published in top journals and were heading into clinical trials before independent forensic reanalysis (Baggerly & Coombes) could not reproduce them; data errors surfaced, trials were suspended, papers were retracted. The lesson is **not** "those scientists were bad people." It is that **the pipeline was undocumented and the failure modes we are discussing were not controlled.** Rigorous process is what protects you. 
 
 ## 15. Why biomarkers fail validation — the pattern
 
