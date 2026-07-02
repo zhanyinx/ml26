@@ -46,7 +46,7 @@ The key insight, and one you should internalise early: **most of the scientific 
 | Endpoint | When available | Caveat in HR+/HER2− |
 |---|---|---|
 | pathologic complete response (pCR) | early, at surgery after neoadjuvant therapy | rare in luminal disease; a *weak* surrogate for long-term survival |
-| Residual Cancer Burden (RCB) class | early, at surgery | graded, but the same surrogacy concern |
+| clinical benefit (treated vs untreated) | only with a comparator arm | needs untreated patients; not learnable from single-arm data |
 | relapse / distant metastasis-free survival (DMFS) | needs years of follow-up | closest to what patients actually care about |
 
 The label is **a scientific choice with biological consequences**, not a given. pCR is convenient because it is measured early and is binary — but in luminal (HR+/HER2−) disease pCR is uncommon and correlates only weakly with survival. A model that predicts pCR well in this setting may be predicting something of limited clinical value.
@@ -128,8 +128,8 @@ In our combined METABRIC + GSE6532 data, PC1 separates the two platforms cleanly
 
 - **Feature-selection leakage** — picking the "best" genes using *all* samples *before* splitting into train/test. The classic killer.
 - **Normalisation leakage** — computing scaling statistics (mean, variance, quantiles) over train + test together.
-- **Sample leakage** — technical replicates, multiple biopsies from one patient, or related patients split across train and test.
-- **Temporal / label leakage** — using information that only became available *after* the outcome was known.
+- **Sample leakage** — technical replicates, multiple biopsies from one patient, or longitudinal samples of the same patient split across train and test.
+- **Hidden leakage** — building on a *published signature that was itself derived from the cohort you are now using*, so the "external" prior knowledge has already seen your patients' outcomes.
 
 ## 14. When a biomarker collapses: Duke / Potti
 
@@ -249,7 +249,7 @@ A simple model on a clean, leak-free, well-validated pipeline beats a fancy mode
 6. **Overfitting is the default** in p ≫ n: great on training data, collapses on new data.
 7. **Signatures are non-unique and unstable;** signature membership is weak evidence of causal biology.
 8. **Batch effects** are technical variation by when/where/how; dangerous when larger than the signal or correlated with outcome. **PCA diagnoses, it does not fix.**
-9. **Data leakage** (feature-selection, normalisation, sample, temporal/label) is the top reason biomarkers fail to replicate.
+9. **Data leakage** (feature-selection, normalisation, sample, hidden/published-signature) is the top reason biomarkers fail to replicate.
 10. **Defensible workflow:** *split first, decide everything downstream of the split;* train / validation / test; split by patient, respect batch, stratify; external validation is the gold standard.
 
 ## Key terms

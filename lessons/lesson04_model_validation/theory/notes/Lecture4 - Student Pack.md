@@ -47,9 +47,9 @@ Regularised linear: interpretable, stable, strong in p ≫ n — **the default**
 
 **Parameters** are learned *from* the data during fitting (gene coefficients, tree split thresholds). **Hyperparameters** are set *before* fitting and control the model (tree depth, number of trees, penalty strength C). You don't learn hyperparameters by fitting — you **search** for good values, and that search must be validated honestly. (Number of trees: hyperparameter. The genes a tree splits on: parameters.) Tuning is a *search over models*, and it consumes validation honesty in a way ordinary fitting does not — the seed of the field's most common validation error.
 
-## 8. Grid and random search
+## 8. Grid, random, and Bayesian search
 
-**Grid search**: try every combination on a predefined grid — thorough but expensive, and it wastes effort on bad regions. **Random search**: sample combinations at random — often finds good values *far more cheaply*, especially when only a few hyperparameters matter. The non-negotiable rule: every candidate is scored by **cross-validation, never the final test set**. Cost explodes combinatorially — each hyperparameter multiplies the search, and every fit is itself a cross-validation, so costs reach thousands of fits fast. (More exhaustive ≠ more rigorous.)
+**Grid search**: try every combination on a predefined grid — thorough but expensive, and it wastes effort on bad regions. **Random search**: sample combinations at random — often finds good values *far more cheaply*, especially when only a few hyperparameters matter. **Bayesian (surrogate-model) search**: fit a cheap surrogate model of the CV-score surface and use past results to decide where to look next, reaching good settings in far fewer evaluations — still scored by cross-validation, never the test set. The non-negotiable rule: every candidate is scored by **cross-validation, never the final test set**. Cost explodes combinatorially — each hyperparameter multiplies the search, and every fit is itself a cross-validation, so costs reach thousands of fits fast. (More exhaustive ≠ more rigorous.)
 
 ## 9. The danger hiding in tuning
 
@@ -77,11 +77,11 @@ Systematic *technical* differences by platform, site, date, or protocol — not 
 
 ## 15. Batch correction: ComBat and friends
 
-ComBat and "remove unwanted variation" methods estimate and subtract batch-associated shifts so cohorts become comparable; done well, cross-platform models can work. **Risks:** aggressive correction can *remove real biology* (if a true biological difference aligns with the batch structure, it gets subtracted too), and done wrong it can *leak the outcome* (§16). A gentler partial alternative (Lecture 3): **pathway-level features** are more platform-robust by design, because aggregation averages out probe-specific quirks — sometimes a better representation beats a heavier correction. Batch correction is a *modelling choice with real risks*, not a neutral clean-up step.
+ComBat and quantile-normalization methods estimate and subtract batch-associated shifts so cohorts become comparable; done well, cross-platform models can work. **Risks:** aggressive correction can *remove real biology* (if a true biological difference aligns with the batch structure, it gets subtracted too), and done wrong it can *leak the outcome* (§16). A gentler partial alternative (Lecture 3): **pathway-level features** are more platform-robust by design, because aggregation averages out probe-specific quirks — sometimes a better representation beats a heavier correction. Batch correction is a *modelling choice with real risks*, not a neutral clean-up step.
 
 ## 16. Where batch correction belongs in the pipeline
 
-**Cardinal rule:** correction must not use the outcome label, and must respect the split — **estimate it on training data, apply the same transform to validation/test**. Correcting train + test *together* (on all data, before splitting) is a **leakage vector**: even though ComBat is unsupervised, the *transform* borrows information across the split (test samples influence the correction applied to training and vice versa), so folds are no longer independent and the estimate inflates. And the structural caveat: if batch is **perfectly confounded** with outcome (e.g. all recurrers on one platform), *no* method can rescue it — only better study design could have.
+**Cardinal rule:** correction must not use the outcome label, and must respect the split — **estimate it on training data, apply the same transform to validation/test**. And always **start from raw counts** — never data that was already normalized or batch-corrected upstream — so the correction is estimated once, on the training split only. Correcting train + test *together* (on all data, before splitting) is a **leakage vector**: even though ComBat is unsupervised, the *transform* borrows information across the split (test samples influence the correction applied to training and vice versa), so folds are no longer independent and the estimate inflates. And the structural caveat: if batch is **perfectly confounded** with outcome (e.g. all recurrers on one platform), *no* method can rescue it — only better study design could have.
 
 ## 17. Interpreting models responsibly
 
@@ -169,7 +169,7 @@ A **200–300 word model-selection statement** (Part 9): which model you'd choos
 
 - **Decision tree / Random Forest / Gradient Boosting** — a single rule-cascade; many averaged trees (variance reduction); sequentially error-correcting trees (powerful, overfit-prone).
 - **Parameter vs hyperparameter** — learned from data during fitting vs set before fitting and searched for.
-- **Grid / random search** — exhaustive vs sampled hyperparameter search, scored by CV.
+- **Grid / random / Bayesian search** — exhaustive vs sampled vs surrogate-model-guided hyperparameter search, all scored by CV.
 - **Nested cross-validation** — inner loop selects hyperparameters, outer loop estimates performance honestly.
 - **Tuning optimism** — inflation of a reported score caused by selecting the configuration on the same data.
 - **Batch effect / batch correction (ComBat)** — systematic technical variation between cohorts / methods to estimate and subtract it (estimated on train, applied to test).

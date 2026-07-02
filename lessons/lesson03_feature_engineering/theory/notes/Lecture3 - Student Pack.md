@@ -96,7 +96,8 @@ Connects to every prior theme: far fewer features → friendlier p:n (dimensiona
 
 - **Filter methods** — rank features independently of the model (variance, correlation, DE). Fast, model-agnostic, but blind to interactions.
 - **Embedded methods** — selection happens *during* fitting (LASSO, Elastic Net). Efficient, model-aware.
-- **Tree-based importance** — rank by usefulness for splitting. Intuitive, captures some interactions (with known biases).
+- **Tree-based importance** — rank by usefulness for splitting, in two flavours: **impurity / Gini importance** (free with the model and fast, but unstable when genes are correlated) and **SHAP values** (a game-theory share of each gene's contribution to each individual prediction — consistent and *signed*, ranked by mean |SHAP|; costlier, but far more trustworthy for explanation).
+- **Wrapper methods (Boruta)** — duplicate every gene and shuffle the copies into noise "shadow" features, then keep only genes that *repeatedly* beat the best shadow. An *all-relevant* selector (not a minimal panel), with a noise baseline that adapts to the data; like any supervised selection it must run **inside the fold**.
 
 Match the method to your goal: speed, sparsity, stability, interpretability. Filters judge each feature alone, so they miss **interactions and redundancy** (two genes useless alone but informative together). There's no single "best" method — usually the simplest one that is leak-free and stable.
 
