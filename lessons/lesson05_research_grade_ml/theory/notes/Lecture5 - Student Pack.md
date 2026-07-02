@@ -123,7 +123,7 @@ This is a **review-diagnose-repair** project, not a build-from-scratch one. You 
 
 ## How to approach it
 
-- **Predict before you run.** Before correcting, guess how far the headline number will fall. The gap between the flashy original and the honest corrected number **is** the lesson — and the course thesis (validation > optimization). Frame the deflation as success.
+- **Predict before you run.** Before correcting, predict where the honest numbers land. The biggest drop is **external**, not internal: the leakage-safe / nested internal AUC barely moves (the headline was only ~0.69 to begin with), but the raw-gene model collapses on the external cohort and the corrected model only matches a clinical baseline. That external gap **is** the lesson — the course thesis (validation > optimization).
 - **Let the checklist do the work.** The flaws are discoverable from the analysis itself; the reviewer checklist is the tool that surfaces them. Don't expect them to be labelled.
 - **Protect Parts 2 and 4** — *finding* the flaws and *repairing* them into an honest, externally-validated workflow are the spine. The corrected workflow should itself pass the checklist it applies.
 - **Model the reproducibility lesson:** fix and report a seed, keep everything inside pipelines, make every reported number regenerable.
@@ -170,7 +170,7 @@ A structured **reviewer report** (Part 6) with a justified recommendation, plus 
 5. Two patients are both "non-recurrers" at a 5-year binary cutoff — one recurred at 5.5y, one was censored at 2y. How does a survival framing treat them differently, and why does it matter in HR+ disease? *(§8)*
 6. A paper shares all code and data and you regenerate every figure exactly. Is the biomarker reproducible? *(§9)*
 7. A biomarker is significant at p < 0.0001 in 3,000 patients but separates 10-year risk by 2%. Is it clinically useful? What's the comparison it most needs? *(§11–12)*
-8. You review "a novel 50-gene signature, cross-validated AUC 0.92." List the four questions you'd ask first and the red flag behind each. *(§14–15)*
+8. A colleague reports "a novel 30-gene signature, cross-validated AUC 0.95." List the four questions you'd ask first and the red flag behind each. *(a generic drill — not the capstone, whose reproduced headline is a far more modest ~0.69.)* *(§14–15)*
 
 ## One sentence to leave with
 

@@ -237,3 +237,10 @@ solutions/**/datasets/*
 *.Rhistory
 # MS Office lock/temp files (e.g. ~$Lecture1 - ....pptx)
 ~$*
+
+# Claude stuff
+.citadel/
+.claude/
+AGENTS.md
+CLAUDE.md
+STRUCTURE.md

@@ -15,17 +15,15 @@ different array platform, so a genuine cross-platform batch effect is present fo
 
 ## Setup
 
-Install the course environment once from the repository root (see the top-level
-[`README.md`](../../../../README.md) and [`requirements.txt`](../../../../requirements.txt)):
+Run **Lesson 0** once before this practical — it installs the environment and downloads the data
+into the shared cache:
+[`lessons/lesson00_prerequisites/lesson00_prerequisites.ipynb`](../../../lesson00_prerequisites/).
 
-```bash
-pip install -r requirements.txt
-```
-
-On first run the notebook **downloads its data** (internet required): METABRIC from the cBioPortal
-datahub (expression matrix ~660 MB) and GSE6532 from NCBI GEO (~180 MB). Data is cached under
-`datasets/` (git-ignored) and **shared with the later lessons**, so it is downloaded only once. The
-first download takes a few minutes.
+This notebook **shows you the data-loader functions** (Section 0), loads the raw cohorts, and at the
+end **saves a `lesson01_cohort` checkpoint** that Lessons 2–5 load. The raw data itself is downloaded
+once by Lesson 0; if it is missing, run Lesson 0 first. The data (METABRIC ~660 MB
+from cBioPortal, GSE6532 ~180 MB from NCBI GEO) is cached under `datasets/` (git-ignored) and shared
+across all lessons, so it is downloaded only once.
 
 ## What you'll do
 

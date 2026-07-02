@@ -20,17 +20,12 @@ disagree.
 
 ## Setup
 
-Install the course environment once from the repository root (see the top-level
-[`README.md`](../../../../README.md) and [`requirements.txt`](../../../../requirements.txt)):
-
-```bash
-pip install -r requirements.txt
-```
-
-This capstone reuses the **shared METABRIC cache** and, for genuine external validation, downloads
-the real **GSE6532** cohort (Loi et al., Affymetrix) from NCBI GEO (~180 MB) on first run.
-**Internet access is required the first time.** The optional survival cell uses `lifelines` if
-installed (included in `requirements.txt`); it is skipped automatically if absent.
+Run **Lesson 0** once (before any practical) to install the environment and populate the shared data
+cache: [`lessons/lesson00_prerequisites/`](../../../lesson00_prerequisites/). This capstone **loads the `lesson03_features` checkpoint** (raw genes + engineered features + split) and builds a
+**real external GSE6532 cohort** (Loi et al., Affymetrix, ~180 MB) here; if the checkpoint is missing
+it raises with a pointer to run Lesson 3 first. Run **Lesson 0** once for the `ml26` conda env + data. The optional
+survival cell uses `lifelines` if installed (included in `requirements.txt`); it is skipped
+automatically if absent.
 
 ## Exercises
 

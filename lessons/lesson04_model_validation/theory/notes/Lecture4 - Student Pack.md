@@ -69,7 +69,7 @@ Without nesting, tuned models report optimistic scores that don't replicate — 
 
 ## 13. Why models fail on new cohorts
 
-A model can look excellent in-cohort and **collapse** on an independent dataset. The usual culprit isn't a bad model — it's **technical variation between cohorts** (batch effects). Our setting: METABRIC (Illumina) vs GSE6532 (Affymetrix), a real cross-platform batch effect. A signature at 0.78 internal CV can drop to 0.60 externally — the model latched onto platform-specific intensities that don't transfer. **Cross-cohort validation is the closest thing to truth before a clinical trial.** Good in-cohort CV says *nothing* about cross-platform transfer; only external validation does.
+A model can look excellent in-cohort and **collapse** on an independent dataset. The usual culprit isn't a bad model — it's **technical variation between cohorts** (batch effects). Our setting: METABRIC (Illumina) vs GSE6532 (Affymetrix), a real cross-platform batch effect (in **this** practical, reproduced with a *simulated* GSE6532-like cohort — held-out METABRIC patients with an injected batch effect; see Part 2). A signature at 0.78 internal CV can drop to 0.60 externally — the model latched onto platform-specific intensities that don't transfer. **Cross-cohort validation is the closest thing to truth before a clinical trial.** Good in-cohort CV says *nothing* about cross-platform transfer; only external validation does.
 
 ## 14. Batch effects, revisited
 

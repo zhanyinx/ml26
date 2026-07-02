@@ -92,7 +92,7 @@ Genes act in correlated pathways — exactly the case LASSO handles poorly. **El
 
 ## 13. Evaluation: accuracy is not enough
 
-Recurrence is a **minority class**, so accuracy misleads. A model that predicts "no recurrence" for everyone can post high accuracy and be clinically worthless. Concretely: if 18% of patients recur, "always negative" scores **82% accuracy** and **0% recall** — it identifies no one at risk. We need metrics that respect *which* errors we make, not just how many.
+Recurrence is a **minority class**, so accuracy misleads. A model that predicts "no recurrence" for everyone can post high accuracy and be clinically worthless. Concretely: if ~22% of patients recur (as in our HR+/HER2− cohort), "always negative" scores **~78% accuracy** and **0% recall** — it identifies no one at risk. We need metrics that respect *which* errors we make, not just how many.
 
 ## 14. The confusion matrix and its metrics
 
