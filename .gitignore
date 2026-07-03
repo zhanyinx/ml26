@@ -238,10 +238,12 @@ solutions/**/datasets/*
 # MS Office lock/temp files (e.g. ~$Lecture1 - ....pptx)
 ~$*
 
-# Claude
-CLAUDE.md
-AGENTS.md
-project.md
+# Claude stuff
+.citadel/
 .claude/
+AGENTS.md
+CLAUDE.md
+STRUCTURE.md
 .planning/
+project.md
 .citadel 

@@ -13,6 +13,10 @@ ml26/
 ├── .gitignore
 ├── lessons/
 │   ├── overview.md                       # Full 5-section syllabus
+│   ├── lesson00_prerequisites/            # One-time setup: conda env `ml26` + data download
+│   │   ├── README.md
+│   │   ├── requirements.txt
+│   │   └── lesson00_prerequisites.ipynb  # Installs env + downloads data into the shared cache
 │   ├── lesson01_biological_question/      # Section 1
 │   │   ├── theory/
 │   │   │   ├── notes/
@@ -46,6 +50,7 @@ ml26/
 
 | Lesson | Section | Topic | Deliverable |
 |---|---|---|---|
+| `lesson00_prerequisites` | — | Environment & data setup (run once, before Lesson 1) | Populated shared data cache |
 | `lesson01_biological_question` | 1 | From Biological Question to ML Problem | Project specification |
 | `lesson02_baseline_model` | 2 | Building the First Predictive Model | Baseline model report |
 | `lesson03_feature_engineering` | 3 | Feature Engineering & Biological Representation | Feature engineering notebook |
@@ -59,6 +64,12 @@ ml26/
 - **`theory/slides/`** — slide decks (`Lecture N - <title>.pptx`).
 - **`practical/task/`** — student-facing exercises (`README.md`, `notebooks/lessonNN_exercises.ipynb`, `datasets/`). One README per lesson, at `practical/task/README.md`.
 - **`solutions/lessonNN_<topic>/`** — reference solutions mirroring the lessons.
+- **`lessons/lesson00_prerequisites/`** — one-time setup: creates the `ml26` conda env (+ Jupyter
+  kernel) and downloads the data. Run before Lesson 1.
+- **Data hand-off between lessons** — there is no shared code module. **Lesson 1** shows the loader
+  functions inline and saves a `lesson01_cohort` checkpoint; **Lessons 2–5 load it** (Lesson 3 saves
+  a `lesson03_features` checkpoint for Lessons 4–5). Checkpoints live in `datasets/derived/`
+  (git-ignored). A lesson raises a clear "run Lesson N first" error if its checkpoint is missing.
 
 ## Student vs instructor materials
 

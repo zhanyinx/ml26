@@ -25,7 +25,7 @@ A model never sees "biology." It sees a matrix of numbers we chose. Change those
 
 ## 2. Why features matter
 
-A flawless algorithm fed a poor representation still fails, because the discriminating structure isn't *accessible* in the features. The key asymmetry: 20,000 noisy genes carry enormous noise per unit signal; 50 meaningful pathway scores carry far less. Features are also where we **inject prior knowledge** — decades of cancer biology — so the model needn't rediscover it from a few hundred patients it doesn't have the data to. The clinically adopted breast-cancer recurrence assays are, at heart, *feature engineering*: a small curated set of genes (heavy on proliferation and ER signalling), not an exotic algorithm. Drop the instinct that *more features = more information = better*; more features means more **noise** and more ways to overfit, unless they carry signal.
+A flawless algorithm fed a poor representation still fails, because the discriminating structure isn't *accessible* in the features. The key asymmetry: 20,000 noisy genes carry enormous noise per unit signal; a handful of meaningful pathway scores carry far less. Features are also where we **inject prior knowledge** — decades of cancer biology — so the model needn't rediscover it from a few hundred patients it doesn't have the data to. The clinically adopted breast-cancer recurrence assays are, at heart, *feature engineering*: a small curated set of genes (heavy on proliferation and ER signalling), not an exotic algorithm. Drop the instinct that *more features = more information = better*; more features means more **noise** and more ways to overfit, unless they carry signal.
 
 ## 3. A concrete comparison (our case study)
 
@@ -33,7 +33,7 @@ Same METABRIC patients, the same Logistic Regression from Lecture 2, and several
 
 ## 4. The curse of dimensionality, revisited
 
-p ≫ n again: a few hundred to a couple of thousand patients, ~20,000 genes. With so many features, some correlate with outcome by chance; models are unstable; overfitting is the default. New framing (vs Lecture 1): **representation is one of the few levers that actually reduces p** — moving from 20,000 genes to 50 pathways pushes p back toward n, where statistics behaves. Recall the Lecture 1 demonstration that random gene panels can "predict" outcome; aggregation is a principled way to stop handing the model that opportunity. Don't expect to "beat the curse with more data" — in oncology you usually can't; representation is the lever you control.
+p ≫ n again: a few hundred to a couple of thousand patients, ~20,000 genes. With so many features, some correlate with outcome by chance; models are unstable; overfitting is the default. New framing (vs Lecture 1): **representation is one of the few levers that actually reduces p** — moving from ~20,000 genes to ~10 pathways pushes p back toward n, where statistics behaves. Recall the Lecture 1 demonstration that random gene panels can "predict" outcome; aggregation is a principled way to stop handing the model that opportunity. Don't expect to "beat the curse with more data" — in oncology you usually can't; representation is the lever you control.
 
 ## 5. How dimensionality hurts (intuition)
 
@@ -82,11 +82,11 @@ Four wins from one idea: **(1)** averaging co-regulated genes cancels gene-speci
 
 ## 15. Pathway-level features: gene sets
 
-A gene set is a curated list of genes sharing a function. Databases: **MSigDB Hallmarks** (~50 deliberately non-redundant programmes — ideal for modelling), plus Reactome, GO, KEGG for finer detail. The move: turn 20,000 genes into ~50–100 interpretable pathway activities — biological feature engineering done systematically. Hallmark sets like "E2F targets," "G2M checkpoint," "estrogen response early/late" map onto the proliferation and ER biology we hand-built. Trade-off: few/curated sets are stable and interpretable; thousands of overlapping sets give finer resolution but reintroduce dimensionality and instability. *More sets ≠ better resolution.*
+A gene set is a curated list of genes sharing a function. Databases: **MSigDB Hallmarks** (50 non-redundant programmes — ideal for modelling; the practical uses a curated subset of ~10), plus Reactome, GO, KEGG for finer detail. The move: turn ~20,000 genes into a small set of ~10 interpretable pathway activities — biological feature engineering done systematically. Hallmark sets like "E2F targets," "G2M checkpoint," "estrogen response early/late" map onto the proliferation and ER biology we hand-built. Trade-off: few/curated sets are stable and interpretable; thousands of overlapping sets give finer resolution but reintroduce dimensionality and instability. *More sets ≠ better resolution.*
 
 ## 16. From genes to pathway activities (GSVA / ssGSEA, conceptually)
 
-These methods compute, per patient and per gene set, a single number: how *active* that programme is in that sample. Conceptually they rank/aggregate the set's genes within each sample into a pathway-activity score. We use them as a **tool** — the output is a patients × pathways matrix that feeds the same Logistic Regression. The transformation in one line: a 1,000 × 20,000 gene matrix → a 1,000 × 50 pathway matrix, same patients, friendlier shape. We give up single-gene resolution — usually a good trade in p ≫ n. (Honest note: per-sample scoring can have subtle leakage considerations, but with **fixed published** gene sets the label-leakage risk is low.) Pathway scoring isn't a black box — it's a transparent aggregation of known biology.
+These methods compute, per patient and per gene set, a single number: how *active* that programme is in that sample. Conceptually they rank/aggregate the set's genes within each sample into a pathway-activity score. We use them as a **tool** — the output is a patients × pathways matrix that feeds the same Logistic Regression. The transformation in one line: a 1,000 × 20,000 gene matrix → a 1,000 × ~10 pathway matrix, same patients, friendlier shape. We give up single-gene resolution — usually a good trade in p ≫ n. (Honest note: per-sample scoring can have subtle leakage considerations, but with **fixed published** gene sets the label-leakage risk is low.) Pathway scoring isn't a black box — it's a transparent aggregation of known biology.
 
 ## 17. Why pathway features are more robust
 
@@ -102,7 +102,7 @@ Match the method to your goal: speed, sparsity, stability, interpretability. Fil
 
 ## 19. LASSO and Elastic Net as selectors (callback)
 
-LASSO → sparse panel; Elastic Net → keeps correlated groups, more stable (Lecture 2). New point: apply embedded selection **on pathway features** and you get a tiny, interpretable, stable model — a handful of meaningful pathways. The synergy, which is the course's method thesis in one line: **good engineering (pathways) + honest selection (Elastic Net) + honest validation = a defensible biomarker.** Selecting among ~50 interpretable pathways is more stable than among 20,000 genes — but the inside-the-fold rule still applies; pathway selection is *not* automatically leakage-free.
+LASSO → sparse panel; Elastic Net → keeps correlated groups, more stable (Lecture 2). New point: apply embedded selection **on pathway features** and you get a tiny, interpretable, stable model — a handful of meaningful pathways. The synergy, which is the course's method thesis in one line: **good engineering (pathways) + honest selection (Elastic Net) + honest validation = a defensible biomarker.** Selecting among ~10 interpretable pathways is more stable than among 20,000 genes — but the inside-the-fold rule still applies; pathway selection is *not* automatically leakage-free.
 
 ## 20. Feature-selection leakage (the critical idea)
 
@@ -152,7 +152,7 @@ This practical is one controlled experiment: hold the model fixed, vary the repr
 2. **Variance-filtered genes** — an unsupervised filter; note *why* it's low-leakage.
 3. **Differentially-expressed genes** — a supervised filter, done **inside each fold**; you'll also peek at what the quick-and-leaky version would have reported.
 4. **Biological signature features** — build proliferation, ER, immune, stromal scores from the provided gene lists; model the handful of scores.
-5. **Pathway-level features** — transform genes → ~50 pathway activities with the provided scorer; model them; check stability vs raw genes.
+5. **Pathway-level features** — transform genes → ~10 pathway activities with the provided scorer; model them; check stability vs raw genes.
 6. **Compare representations** — assemble the headline table (ROC-AUC, PR-AUC, #features, stability, interpretability) and the bar chart.
 7. **Leakage exercise** — diagnose a deliberately flawed workflow, *measure* the optimism gap, and watch a leaky pipeline report a non-trivial AUC on **permuted labels**.
 8. **Biological interpretation & recommendation** — your written deliverable.
@@ -175,11 +175,11 @@ A **200–300 word representation recommendation** (Part 8): which representatio
 
 1. **Representation over algorithm.** The model sees the numbers we choose; changing them often beats changing the model. In p ≫ n with strong prior biology, representation usually wins.
 2. **Features inject prior knowledge.** Clinically adopted assays are essentially feature engineering (proliferation + ER modules), not exotic algorithms. *More features = more noise*, unless they carry signal.
-3. **Representation reduces p.** Moving 20,000 genes → 50 pathways pushes p toward n — one of the few real defences against the curse of dimensionality.
+3. **Representation reduces p.** Moving ~20,000 genes → ~10 pathways pushes p toward n — one of the few real defences against the curse of dimensionality.
 4. **Engineering vs selection.** Engineering *creates* features (a score); selection *chooses* features (keep 100 genes). Both are data-dependent — both respect the split (fixed published gene sets excepted).
 5. **Gene filtering:** variance (unsupervised → low leakage, but keeps noise) and differential expression (supervised → powerful but a **leakage hazard**; must live inside the fold).
 6. **Biological signatures** (proliferation ↑risk, ER signalling ↓risk, immune, stromal) beat single genes via averaging (less noise), stability, lower p, and meaning.
-7. **Pathway features:** ~50 hallmark activities from 20,000 genes (GSVA/ssGSEA as a *tool*) → friendlier p:n, more stable, **more comparable across platforms** (helps batch), interpretable.
+7. **Pathway features:** ~10 hallmark activities from ~20,000 genes (GSVA/ssGSEA as a *tool*) → friendlier p:n, more stable, **more comparable across platforms** (helps batch), interpretable.
 8. **Feature selection families:** filter / embedded (LASSO, Elastic Net) / tree-based. The synergy: good engineering + honest selection + honest validation = a defensible biomarker.
 9. **Feature-selection leakage** is the top silent error in omics ML: select on all data → CV → inflated, *stable*, irreproducible AUC. **CV does not protect you.** Selection goes *inside each fold*.
 10. **Interpretability & honesty:** pathway models tell a clinician-readable story, but feature engineering is a *hypothesis* — a wrong gene set can hide signal or blur a single-gene effect; validate, don't assume.
@@ -198,7 +198,7 @@ A **200–300 word representation recommendation** (Part 8): which representatio
 ## Self-test (try before checking back against Part 1)
 
 1. A colleague says "we'll improve our biomarker by switching to a deep neural network." What's the more likely big lever, and why? *(§1–2)*
-2. Why does moving from 20,000 genes to 50 pathway features help in p ≫ n — name two mechanisms. *(§4, §17)*
+2. Why does moving from ~20,000 genes to ~10 pathway features help in p ≫ n — name two mechanisms. *(§4, §17)*
 3. Define feature engineering and feature selection; give one transcriptomic example of each and say how their leakage risks differ. *(§6)*
 4. Why is variance filtering low-leakage but differential-expression filtering a leakage hazard? *(§7–8)*
 5. Why might the *average* of 30 proliferation genes be a better feature than the single best one? *(§10, §14)*

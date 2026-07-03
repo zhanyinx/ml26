@@ -10,15 +10,10 @@ model interpretation, and reproducibility safeguards.
 
 ## Setup
 
-Install the course environment once from the repository root (see the top-level
-[`README.md`](../../../../README.md) and [`requirements.txt`](../../../../requirements.txt)):
-
-```bash
-pip install -r requirements.txt
-```
-
-This practical reuses the **shared METABRIC cache** from Lesson 1 (expression matrix ~660 MB); if
-you haven't run Lesson 1 it downloads on first run. **Internet access is required the first time.**
+Run **Lesson 0** once (before any practical) to install the environment and populate the shared data
+cache: [`lessons/lesson00_prerequisites/`](../../../lesson00_prerequisites/). This notebook **loads the checkpoint saved by the previous lesson** (it does not re-derive the cohort); if that
+checkpoint is missing it raises with a pointer to run the earlier lesson first. Run **Lesson 0** once
+to create the `ml26` conda environment and download the data.
 `shap` and `combat`/`inmoose` are discussed in the lecture but are **not** used here — the notebook
 relies only on scikit-learn (RF feature importances and a hand-rolled ComBat-style correction).
 

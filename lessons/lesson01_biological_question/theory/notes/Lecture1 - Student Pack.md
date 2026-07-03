@@ -120,7 +120,7 @@ A **batch effect** is systematic technical variation tied to *when, where, and h
 - colour by **batch/platform** → if the points separate cleanly (e.g. along PC1), batch dominates the variance;
 - colour by the **biological label** → if the points are thoroughly mixed, the dominant axis is *not* your biology.
 
-In our combined METABRIC + GSE6532 data, PC1 separates the two platforms cleanly while recurrence is mixed across both — *"the array knew the platform before it knew the tumour."* Two cautions: **PCA is a diagnostic, not a fix** (correction methods like ComBat come later and have their own pitfalls), and PCA *reveals* structure without telling you its cause.
+In our combined METABRIC + GSE6532 data, PCA on the top ~2,000 most variable shared genes shows PC1 separating the two platforms cleanly, while the recurrence label — available only on the METABRIC samples — shows no comparable structure; with outcome observed on just one platform you cannot even assess mixing across the divide — *"the array knew the platform before it knew the tumour."* Two cautions: **PCA is a diagnostic, not a fix** (correction methods like ComBat come later and have their own pitfalls), and PCA *reveals* structure without telling you its cause.
 
 ## 13. Data leakage: the most expensive mistake
 
@@ -225,7 +225,7 @@ A simple model on a clean, leak-free, well-validated pipeline beats a fancy mode
 → *Reason about:* if batch and outcome were *perfectly* confounded, why could no correction method rescue the analysis?
 
 **5. Designing the splits (~40 min — a core section).** First build a **naive random split** and measure how the minority class and the batches actually landed — compare against your Section 3 prediction. Then build a proper **patient-level, stratified, batch-aware** split and verify integrity (no patient on two sides; class proportions preserved; batch distribution checked across splits). Finally, the **leakage hunt**: state exactly where normalisation and feature selection must happen (after, and inside, the split) and point to the line in the naive workflow where leakage would have occurred. *Output: split index sets, an integrity-check table, and a short justification.*
-→ *Note:* METABRIC and GSE6532 are essentially one-sample-per-patient, so true duplication isn't present here — implement and verify patient-level grouping anyway as a discipline; the *batch-aware* requirement is the live constraint.
+→ *Note:* METABRIC and GSE6532 are essentially one-sample-per-patient, so true duplication isn't present here — implement and verify patient-level grouping anyway, as a discipline. Because the labelled cohort here is single-platform (METABRIC only), the **live constraint is stratification of the minority class**; patient-level grouping and batch-awareness are habits to carry forward, not the binding constraint in this dataset.
 
 **6. Reflection memo (~15 min — the main assessable artefact).** Write a 200–300 word **"data readiness" memo**: is this dataset fit for building a trustworthy biomarker? What are its risks (sample size, imbalance, batch confounding, label ambiguity)? What would you fix or request before modelling? This is your honest analyst's verdict.
 

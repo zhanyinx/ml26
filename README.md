@@ -51,29 +51,38 @@ Each lesson folder contains:
 
 ## Setup
 
-You need **Python 3.9+**. From the repository root:
+Everything starts with **Lesson 0** — it creates the environment and downloads the data, once.
+
+**1. Create the `ml26` conda environment.** You need **conda**; if you don't have it, install
+**Miniconda** first (~5 min): <https://docs.anaconda.com/miniconda/>. Then, from the repository root:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
+conda create -n ml26 python=3.11 -y
+conda activate ml26
 pip install -r requirements.txt
+python -m ipykernel install --user --name ml26 --display-name "Python (ml26)"
 jupyter lab
 ```
 
-That installs everything the practicals need (NumPy, pandas, scikit-learn, matplotlib, plus the
-data-download helpers). One optional package, `lifelines`, is used only by a single Lesson 5 cell
-and is skipped automatically if missing.
+The `ipykernel` step registers the environment as a Jupyter kernel named **`ml26`** — every notebook
+in the course is set to that kernel, so pick **Python (ml26)** in Jupyter's kernel picker.
+(One optional package, `lifelines`, is used by a single Lesson 5 cell and is skipped if missing.)
 
-### A note on the data
+**2. Run Lesson 0 once** to download the data:
+[`lessons/lesson00_prerequisites/lesson00_prerequisites.ipynb`](lessons/lesson00_prerequisites/).
+See [`lessons/lesson00_prerequisites/README.md`](lessons/lesson00_prerequisites/README.md).
 
-The practicals **download their data on first run** (internet required):
+### A note on the data and the lesson-to-lesson hand-off
 
-- **METABRIC** from the cBioPortal datahub — the expression matrix is large (**~660 MB**), so the
-  first download takes a few minutes.
-- **GSE6532** from NCBI GEO (**~180 MB**).
+Lesson 0 **downloads the data once** (internet required): **METABRIC** from the cBioPortal datahub
+(expression matrix **~660 MB**) and **GSE6532** from NCBI GEO (**~180 MB**). It is cached under
+`lessons/lesson01_.../datasets/` and shared across all lessons.
 
-Data is cached under each lesson's `datasets/` folder and **shared across lessons**, so it is
-downloaded only once. These caches are **git-ignored** — never commit them.
+From there the lessons **hand data forward with checkpoints**: **Lesson 1** reveals the loader
+functions and saves a prepared-cohort checkpoint; **Lessons 2–5 load it** (Lesson 3 in turn saves an
+engineered-features checkpoint for Lessons 4–5). If a lesson's checkpoint is missing it tells you
+which earlier lesson to run first. All caches and checkpoints (`datasets/`, `datasets/derived/`) are
+**git-ignored** — never commit them.
 
 ---
 
