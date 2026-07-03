@@ -53,7 +53,7 @@ Each lesson folder contains:
 
 Everything starts with **Lesson 0** — it creates the environment and downloads the data, once.
 
-**0. Clone the repo on your PC.**+
+**0. Clone the repo on your PC.**
 
 **1. Create the `ml26` conda environment.** You need **conda**; if you don't have it, install
 **Miniconda** first (~5 min): <https://docs.anaconda.com/miniconda/>. Then, from the repository root:
