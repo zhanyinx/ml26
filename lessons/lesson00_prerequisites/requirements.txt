@@ -1,0 +1,29 @@
+# Practical Machine Learning for Transcriptomics in Cancer Research
+# Python 3.9+ required.
+#
+# Set up an environment and install everything with:
+#     python -m venv .venv
+#     source .venv/bin/activate        # Windows: .venv\Scripts\activate
+#     pip install -r requirements.txt
+#
+# The practicals download their data on first run (internet required):
+# METABRIC from the cBioPortal datahub (expression matrix ~660 MB) and
+# GSE6532 from NCBI GEO (~180 MB). Data is cached and git-ignored.
+
+# --- Core scientific stack ---
+numpy>=1.23
+pandas>=1.5
+scikit-learn>=1.2
+matplotlib>=3.6
+
+# --- Data download (METABRIC via cBioPortal, GSE6532 via NCBI GEO) ---
+requests>=2.28
+GEOparse>=2.0.3
+
+# --- Notebook environment ---
+jupyterlab>=3.5
+ipykernel>=6.0
+
+# --- Optional: only for the Lesson 5 survival (time-to-event) cell ---
+# Safe to skip; that cell detects its absence and is skipped automatically.
+lifelines>=0.27
